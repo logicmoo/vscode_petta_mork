@@ -7,7 +7,7 @@ The workspace is mirrored on host and container at `~/vscode_petta_mork`. Place 
 - `make build` (or `task build`): build the `petta-dev` image defined in `docker/Dockerfile`.
 - `make up`: open an interactive shell inside the container; run Python/Prolog tooling there so UID/GID stay aligned.
 - `make bootstrap`: execute `scripts/bootstrap_repos.sh` to sync every entry in `config/upstreams.list`.
-- `make lock`: execute `scripts/lock_repos.sh`, replacing AUTO/TIP entries with pinned SHAs for reproducibility.
+- `make lock`: execute `scripts/lock_repos.sh`, replacing AUTO/TIP entries with pinned SHAs for reproducibility. Only release maintainers should run this; contributors normally leave upstreams on AUTO/TIP.
 - Run tests with `docker compose run --rm petta-dev pytest local/tests` once code exists; add language-specific runners in the same fashion.
 
 ## Coding Style & Naming Conventions

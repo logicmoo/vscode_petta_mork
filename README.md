@@ -52,11 +52,13 @@ make up
 
 Open folder: `~/vscode_petta_mork`, then **Reopen in Container**.
 
-## 8. Lock repo versions
+## 8. (Maintainers) Lock repo versions
 
 ```bash
 make lock
 ```
+
+Only run this when you need to pin `config/upstreams.list` for a release. Day-to-day contributors should **skip this step** so upstream repos continue tracking their configured branches.
 
 ## 9. Local-only workflow (no Docker)
 
