@@ -14,14 +14,14 @@ For recent changes and outstanding tasks, see [`CHANGELOG.md`](CHANGELOG.md).
 - [`upstreams/`](upstreams): Auto-populated clones of external repositories (PeTTa, MORK, PathMap, etc.) managed via `make bootstrap`. Each upstream maintains its own README; edit code there only when vendoring fixes.
 
 ## Why This Workspace Exists
-This repo is the “one folder to open in VS Code.” It keeps the PeTTa runtime, the MORK kernel, PathMap, and the MeTTa/MM2 tooling side-by-side so the editor (and its Language Server Protocol clients) can see every dependency without juggling multiple clones. The SWI-Prolog LSP server that powers MeTTa/MM2 authoring lives under `upstreams/metta-wam/libraries/lsp_server_metta`, and VS Code picks it up through the shared `.config/swi-prolog/pack` tree created by `scripts/link_toolchains.sh`. Because PeTTa itself is mostly SWI-Prolog, we also vend and install James Cash’s `prolog_lsp` pack so VS Code gets hover/completion/diagnostics when editing MeTTa source files or the underlying Prolog runtime. With everything wired through a single devcontainer, you can hack on MeTTa programs, run the LSP-backed IDE features, and jump into upstream sources to expand or debug the stack—all without leaving this workspace.
+This repo is the “one folder to open in VS Code.” It keeps the PeTTa runtime, the MORK kernel, PathMap, and the MeTTa/MM2 tooling side-by-side so the editor (and its Language Server Protocol clients) can see every dependency without juggling multiple clones. The SWI-Prolog LSP server that powers MeTTa/MM2 authoring lives under `upstreams/metta-wam/libraries/lsp_server_metta`, and VS Code picks it up through the shared `.config/swi-prolog/pack` tree created by `scripts/link_toolchains.sh`. Because PeTTa itself is mostly SWI-Prolog, we also vend and install James Cash’s `lsp_server` pack so VS Code gets hover/completion/diagnostics when editing MeTTa source files or the underlying Prolog runtime. With everything wired through a single devcontainer, you can hack on MeTTa programs, run the LSP-backed IDE features, and jump into upstream sources to expand or debug the stack—all without leaving this workspace.
 
 ## Upstream References
 - [upstreams/PeTTa/README.md](https://github.com/patham9/PeTTa#readme) – authoritative docs for the SWI-Prolog runtime, FFI glue, and example workflows.
 - [upstreams/MORK/README.md](https://github.com/trueagi-io/MORK#readme) – details on the MORK kernel layout, CLI usage, and PathMap integration.
 - [upstreams/PathMap/README.md](https://github.com/Adam-Vandervorst/PathMap#readme) – background on the PathMap crate, feature flags, and build requirements.
 - [upstreams/metta-wam/README.md](https://github.com/trueagi-io/metta-wam#readme) – documentation for the MeTTa WAM tooling plus the bundled `lsp_server_metta` pack.
-- [.local/share/swi-prolog/pack/prolog_lsp/README.md](https://github.com/jamesnvc/lsp_server#readme) – James Cash’s general-purpose SWI-Prolog LSP server used for PeTTa source editing.
+- [.local/share/swi-prolog/pack/lsp_server/README.md](https://github.com/jamesnvc/lsp_server#readme) – James Cash’s general-purpose SWI-Prolog LSP server used for PeTTa source editing.
 
 ## 1. Install Docker
 
