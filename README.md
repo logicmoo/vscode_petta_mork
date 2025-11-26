@@ -94,6 +94,17 @@ If Docker isn't available or you prefer to run tooling directly on the host:
 
 This path mirrors the container environment closely enough to run `pytest`, `swipl`, or other local tools without Docker.
 
+## Repository Layout
+- `AGENTS.md`: Operating guidance for CLI agents working in this repo (structure, style, testing, review expectations).
+- `README.md`: You are here; overall onboarding instructions for developers.
+- `CHANGELOG.md`: Human-readable history plus TODO items.
+- `Makefile` / `Taskfile.yml`: Automation entry points for building the dev container, syncing upstreams, etc.
+- `config/`: Contains `upstreams.list`, the source of truth for external repositories pulled into `upstreams/`.
+- `docker/`: Dockerfile and scripts used to build the `petta-dev` container image.
+- `docker-compose.yml`: Defines the `petta-dev` service used by `make up` (bind-mounts the repo, sets user IDs).
+- `scripts/`: Helper scripts (`bootstrap_repos.sh`, `lock_repos.sh`, `link_toolchains.sh`, `unlock_repos.sh`, etc.) that automate workspace tasks.
+- `upstreams/`: Auto-populated clones of external repositories (PeTTa, MORK, PathMap, etc.) managed via `make bootstrap`. Each upstream maintains its own README; edit code there only when vendoring fixes.
+
 ## TODO / Next Steps
 - Port `upstreams/PeTTa/mork_ffi` to the latest MORK `DefaultSpace` API so `./build.sh` succeeds end-to-end.
 - Add smoke tests once repo-specific code exists (e.g., `docker compose run --rm petta-dev pytest local/tests`).
