@@ -56,4 +56,9 @@ link_home_to_workspace() {
 link_repo_view ".cargo"
 link_repo_view ".rustup"
 
+if [[ ! -f "$HOME/.cargo/env" ]] || [[ -L "$HOME/.cargo/env" ]]; then
+    log "Repairing ~/.cargo/env via rustup installer..."
+    curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null
+fi
+
 link_home_to_workspace ".config/swi-prolog/pack" ".config/swi-prolog/pack"
