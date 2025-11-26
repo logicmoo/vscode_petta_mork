@@ -24,7 +24,13 @@ build:
 	@if [ "$(HAS_DOCKER)" -eq 1 ]; then \
 		$(DOCKER_COMPOSE_CMD) build; \
 	else \
-		echo "Docker Compose not available; skipping container build."; \
+		echo "Docker/Compose not available on this host."; \
+		echo "Install Docker with:"; \
+		echo "  sudo apt update && sudo apt install -y docker.io"; \
+		echo "  sudo systemctl enable --now docker"; \
+		echo "  sudo usermod -aG docker $$USER && newgrp docker"; \
+		echo "Then rerun: make build"; \
+		echo "Alternatively, run './scripts/make_local.sh' to install SWI-Prolog and Python deps for a host-only workflow, and use 'make local-shell'."; \
 	fi
 
 up: build

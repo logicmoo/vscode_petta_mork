@@ -52,3 +52,23 @@ Open folder: `~/vscode_petta_mork`, then **Reopen in Container**.
 ```bash
 make lock
 ```
+
+## 9. Local-only workflow (no Docker)
+
+If Docker isn't available or you prefer to run tooling directly on the host:
+
+1. Install SWI-Prolog, Python 3, build tools, and create `.venv` by running:
+
+   ```bash
+   ./scripts/make_local.sh
+   ```
+
+   (You may be prompted for sudo to install packages via `apt`.)
+
+2. Enter a host shell with the virtualenv activated:
+
+   ```bash
+   make local-shell
+   ```
+
+This path mirrors the container environment closely enough to run `pytest`, `swipl`, or other local tools without Docker.
