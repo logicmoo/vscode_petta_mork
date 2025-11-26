@@ -58,7 +58,13 @@ Open folder: `~/vscode_petta_mork`, then **Reopen in Container**.
 make lock
 ```
 
-Only run this when you need to pin `config/upstreams.list` for a release. Day-to-day contributors should **skip this step** so upstream repos continue tracking their configured branches.
+Only run this when you need to pin `config/upstreams.list` for a release. Day-to-day contributors should **skip this step** so upstream repos continue tracking their configured branches. When you need to refresh the locked SHAs, run:
+
+```bash
+make update
+```
+
+which syncs upstreams (via `bootstrap`) and immediately re-locks them.
 
 ## 9. Local-only workflow (no Docker)
 

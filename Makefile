@@ -1,4 +1,4 @@
-.PHONY: help build up shell bootstrap lock local-shell
+.PHONY: help build up shell bootstrap lock update local-shell
 
 UID := $(shell id -u)
 GID := $(shell id -g)
@@ -55,3 +55,6 @@ bootstrap:
 
 lock:
 	./scripts/lock_repos.sh
+
+update:
+	./scripts/bootstrap_repos.sh && ./scripts/lock_repos.sh
