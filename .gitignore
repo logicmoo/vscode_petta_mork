@@ -2,3 +2,4 @@
 .cargo
 .rustup
 upstreams/
+!upstreams/README.md
