@@ -1,5 +1,7 @@
 # vscode_petta_mork – Unified Development Workspace
 
+For recent changes and outstanding tasks, see [CHANGELOG.md](CHANGELOG.md).
+
 ## 1. Install Docker
 
 ```bash
@@ -91,3 +93,8 @@ If Docker isn't available or you prefer to run tooling directly on the host:
    ```
 
 This path mirrors the container environment closely enough to run `pytest`, `swipl`, or other local tools without Docker.
+
+## TODO / Next Steps
+- Port `upstreams/PeTTa/mork_ffi` to the latest MORK `DefaultSpace` API so `./build.sh` succeeds end-to-end.
+- Add smoke tests once repo-specific code exists (e.g., `docker compose run --rm petta-dev pytest local/tests`).
+- Remove the obsolete `version` key from `docker-compose.yml` to silence compose warnings.
