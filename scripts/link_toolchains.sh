@@ -38,14 +38,19 @@ link_home_to_workspace() {
 
     mkdir -p "$workspace_target"
     mkdir -p "$(dirname "$home_link")"
-    if [[ -L "$home_link" || -e "$home_link" ]]; then
-        if [[ -L "$home_link" ]]; then
-            local current
-            current="$(readlink "$home_link" || true)"
-            if [[ "$current" == "$workspace_target" ]]; then
-                log "✓ $home_link already links to $workspace_target"
-                return
-            fi
+    if [[ -e "$home_link" && ! -L "$home_link" ]]; then
+        log "→ Moving existing $home_link contents into $workspace_target"
+        mkdir -p "$workspace_target"
+        if [[ -n "$(ls -A "$home_link" 2>/dev/null)" ]]; then
+            cp -a "$home_link"/. "$workspace_target"/
+        fi
+        rm -rf "$home_link"
+    elif [[ -L "$home_link" ]]; then
+        local current
+        current="$(readlink "$home_link" || true)"
+        if [[ "$current" == "$workspace_target" ]]; then
+            log "✓ $home_link already links to $workspace_target"
+            return
         fi
         rm -rf "$home_link"
     fi
