@@ -8,7 +8,8 @@ export UID
 export GID
 export USER
 
-HAS_DOCKER := $(shell command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1 && echo 1 || echo 0)
+DOCKER_COMPOSE_CMD := $(shell if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then echo "docker compose"; elif command -v docker-compose >/dev/null 2>&1; then echo "docker-compose"; else echo ""; fi)
+HAS_DOCKER := $(shell if [ -n "$(DOCKER_COMPOSE_CMD)" ]; then echo 1; else echo 0; fi)
 
 help:
 	@echo "Targets:"
@@ -21,14 +22,14 @@ help:
 
 build:
 	@if [ "$(HAS_DOCKER)" -eq 1 ]; then \
-		docker compose build; \
+		$(DOCKER_COMPOSE_CMD) build; \
 	else \
 		echo "Docker Compose not available; skipping container build."; \
 	fi
 
 up: build
 	@if [ "$(HAS_DOCKER)" -eq 1 ]; then \
-		docker compose run --rm petta-dev; \
+		$(DOCKER_COMPOSE_CMD) run --rm petta-dev; \
 	else \
 		echo "Docker Compose not available; starting host shell instead."; \
 		./scripts/local_shell.sh; \

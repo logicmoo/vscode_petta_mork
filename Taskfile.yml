@@ -4,7 +4,24 @@ vars:
   USER: {sh: "id -un"}
   UID: {sh: "id -u"}
   GID: {sh: "id -g"}
-  DOCKER_AVAILABLE: {sh: "if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then echo 1; else echo 0; fi"}
+  DOCKER_COMPOSE_CMD:
+    sh: |
+      if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+        echo "docker compose"
+      elif command -v docker-compose >/dev/null 2>&1; then
+        echo "docker-compose"
+      else
+        echo ""
+      fi
+  DOCKER_AVAILABLE:
+    sh: |
+      if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+        echo 1
+      elif command -v docker-compose >/dev/null 2>&1; then
+        echo 1
+      else
+        echo 0
+      fi
 
 env:
   USER: "{{.USER}}"
@@ -17,7 +34,7 @@ tasks:
     cmds:
       - |
         if [ "{{.DOCKER_AVAILABLE}}" = "1" ]; then
-          docker compose build
+          {{.DOCKER_COMPOSE_CMD}} build
         else
           echo "Docker Compose not available; skipping container build."
         fi
@@ -28,7 +45,7 @@ tasks:
     cmds:
       - |
         if [ "{{.DOCKER_AVAILABLE}}" = "1" ]; then
-          docker compose run --rm petta-dev
+          {{.DOCKER_COMPOSE_CMD}} run --rm petta-dev
         else
           echo "Docker Compose not available; starting host shell instead."
           ./scripts/local_shell.sh
