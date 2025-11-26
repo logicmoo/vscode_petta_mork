@@ -16,8 +16,14 @@ ARG USERNAME
 ARG UID
 ARG GID
 
-RUN groupadd -g $GID $USERNAME && \
-    useradd -m -u $UID -g $GID -s /bin/bash $USERNAME
+RUN if ! getent group "$GID" >/dev/null; then \
+      groupadd -g "$GID" "$USERNAME"; \
+    fi && \
+    if id "$USERNAME" >/dev/null 2>&1; then \
+      usermod -u "$UID" -g "$GID" "$USERNAME"; \
+    else \
+      useradd -m -u "$UID" -g "$GID" -s /bin/bash "$USERNAME"; \
+    fi
 
 USER $USERNAME
 ENV WORKSPACE=/home/$USERNAME/vscode_petta_mork

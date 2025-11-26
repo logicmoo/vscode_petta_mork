@@ -1,16 +1,38 @@
 version: '3'
 
+vars:
+  USER: {sh: "id -un"}
+  UID: {sh: "id -u"}
+  GID: {sh: "id -g"}
+  DOCKER_AVAILABLE: {sh: "if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then echo 1; else echo 0; fi"}
+
+env:
+  USER: "{{.USER}}"
+  UID: "{{.UID}}"
+  GID: "{{.GID}}"
+
 tasks:
   build:
     desc: Build the dev container image
     cmds:
-      - docker compose build
+      - |
+        if [ "{{.DOCKER_AVAILABLE}}" = "1" ]; then
+          docker compose build
+        else
+          echo "Docker Compose not available; skipping container build."
+        fi
 
   up:
     desc: Run dev container (interactive)
     deps: [build]
     cmds:
-      - docker compose run --rm petta-dev
+      - |
+        if [ "{{.DOCKER_AVAILABLE}}" = "1" ]; then
+          docker compose run --rm petta-dev
+        else
+          echo "Docker Compose not available; starting host shell instead."
+          ./scripts/local_shell.sh
+        fi
 
   shell:
     desc: Alias for 'up'
