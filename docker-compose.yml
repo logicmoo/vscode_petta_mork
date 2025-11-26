@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  petta-dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        USERNAME: "${USER}"
+        UID: "${UID}"
+        GID: "${GID}"
+    container_name: petta-dev
+    working_dir: /home/${USER}/vscode_petta_mork
+    volumes:
+      - /home/${USER}/vscode_petta_mork:/home/${USER}/vscode_petta_mork
+    tty: true

@@ -1,0 +1,17 @@
+{
+  "name": "vscode_petta_mork dev",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "petta-dev",
+  "workspaceFolder": "/home/${localEnv:USER}/vscode_petta_mork",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-azuretools.vscode-docker"
+  ],
+  "postCreateCommand": "bash -lc 'cd ~/vscode_petta_mork && if [ ! -d .venv ]; then python3 -m venv .venv; fi'"
+}

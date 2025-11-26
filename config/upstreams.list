@@ -1,0 +1,7 @@
+# name             url                                                 branch      commit
+PeTTa              https://github.com/patham9/PeTTa.git                main        TIP
+metta-examples     https://github.com/trueagi-io/metta-examples.git    main        AUTO
+MettaWamJam        https://github.com/jazzbox35/MettaWamJam.git        main        AUTO
+MORK               https://github.com/trueagi-io/MORK.git              server      LATEST
+PathMap            https://github.com/Adam-Vandervorst/PathMap.git     master      AUTO
+metta-wam          https://github.com/trueagi-io/metta-wam.git         vnamed      AUTO

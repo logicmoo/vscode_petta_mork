@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build the dev container image
+    cmds:
+      - docker compose build
+
+  up:
+    desc: Run dev container (interactive)
+    deps: [build]
+    cmds:
+      - docker compose run --rm petta-dev
+
+  shell:
+    desc: Alias for 'up'
+    deps: [up]
+
+  bootstrap:
+    desc: Clone/update upstream repos
+    cmds:
+      - ./scripts/bootstrap_repos.sh
+
+  lock:
+    desc: Lock upstreams.list to current SHAs
+    cmds:
+      - ./scripts/lock_repos.sh

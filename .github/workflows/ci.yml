@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Create workspace structure
+        run: |
+          mkdir -p $HOME/vscode_petta_mork
+          cp -R . $HOME/vscode_petta_mork/
+          cd $HOME/vscode_petta_mork
+
+      - name: Bootstrap venv
+        run: |
+          cd $HOME/vscode_petta_mork
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install -U pip
+
+      - name: Sync upstream repos (basic)
+        run: |
+          cd $HOME/vscode_petta_mork
+          chmod +x scripts/bootstrap_repos.sh || true
+          ./scripts/bootstrap_repos.sh || echo "bootstrap_repos.sh finished with non-zero (some repos may be private)."
+
+      - name: Placeholder tests
+        run: |
+          cd $HOME/vscode_petta_mork
+          echo "Add real tests here (pytest, flake8, Prolog tests, etc.)"
