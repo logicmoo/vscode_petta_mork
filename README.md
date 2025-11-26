@@ -9,7 +9,8 @@ sudo apt install -y docker.io docker-compose-plugin
 # sudo apt install -y docker.io docker-compose
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
-newgrp docker
+mkdir -p ~/.docker && chmod 700 ~/.docker
+newgrp docker  # or sign out/in so group membership applies
 docker run hello-world
 ```
 
