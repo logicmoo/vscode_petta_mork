@@ -9,6 +9,7 @@ The workspace is mirrored on host and container at `~/vscode_petta_mork`. Place 
 - `make bootstrap`: execute `scripts/bootstrap_repos.sh` to sync every entry in `config/upstreams.list`.
 - `make lock`: execute `scripts/lock_repos.sh`, replacing AUTO/TIP entries with pinned SHAs for reproducibility. Only release maintainers should run this; contributors normally leave upstreams on AUTO/TIP.
 - `make update`: for maintainers, runs `make bootstrap` followed by `make lock` to refresh upstream checkouts and re-pin SHAs in one step.
+- `make unlock`: resets the fourth column in `config/upstreams.list` back to `AUTO` so upstreams follow their branches again.
 - Run tests with `docker compose run --rm petta-dev pytest local/tests` once code exists; add language-specific runners in the same fashion.
 
 ## Coding Style & Naming Conventions

@@ -64,7 +64,13 @@ Only run this when you need to pin `config/upstreams.list` for a release. Day-to
 make update
 ```
 
-which syncs upstreams (via `bootstrap`) and immediately re-locks them.
+which syncs upstreams (via `bootstrap`) and immediately re-locks them. To reset the file back to AUTO and pick up latest commits again:
+
+```bash
+make unlock
+```
+
+This command simply rewrites the fourth column in `config/upstreams.list` to `AUTO`.
 
 ## 9. Local-only workflow (no Docker)
 
