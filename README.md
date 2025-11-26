@@ -14,27 +14,19 @@ newgrp docker  # or sign out/in so group membership applies
 docker run hello-world
 ```
 
-## 2. Setup Workspace
-
-```bash
-unzip vscode_petta_mork_full_template.zip
-mv vscode_petta_mork ~/vscode_petta_mork
-cd ~/vscode_petta_mork
-```
-
-## 3. Build Dev Container
+## 2. Build Dev Container
 
 ```bash
 make build
 ```
 
-## 4. Sync Upstream Repos
+## 3. Sync Upstream Repos
 
 ```bash
 make bootstrap
 ```
 
-## 5. Link Shared Toolchains & Config
+## 4. Link Shared Toolchains & Config
 
 Create the host/container symlinks for the Rust toolchain caches and SWI-Prolog packs so editors and the devcontainer see the same paths:
 
@@ -44,29 +36,29 @@ Create the host/container symlinks for the Rust toolchain caches and SWI-Prolog 
 
 This script links `~/vscode_petta_mork/.cargo` → `~/.cargo`, `~/vscode_petta_mork/.rustup` → `~/.rustup`, and `~/.config/swi-prolog/pack` → `~/vscode_petta_mork/.config/swi-prolog/pack`.
 
-## 6. Create Python venv
+## 5. Create Python venv
 
 ```bash
 docker compose run --rm petta-dev bash -lc 'cd ~/vscode_petta_mork && python3 -m venv .venv'
 ```
 
-## 7. Enter Dev Shell
+## 6. Enter Dev Shell
 
 ```bash
 make up
 ```
 
-## 8. VS Code
+## 7. VS Code
 
 Open folder: `~/vscode_petta_mork`, then **Reopen in Container**.
 
-## 9. Lock repo versions
+## 8. Lock repo versions
 
 ```bash
 make lock
 ```
 
-## 10. Local-only workflow (no Docker)
+## 9. Local-only workflow (no Docker)
 
 If Docker isn't available or you prefer to run tooling directly on the host:
 
