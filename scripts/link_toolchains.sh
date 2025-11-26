@@ -76,8 +76,10 @@ link_repo_view ".cargo"
 link_repo_view ".rustup"
 
 sync_swipl_packs() {
-    local repo_pack="$WORKSPACE/.config/swi-prolog/pack"
-    local host_pack="$HOME/.config/swi-prolog/pack"
+    local home_rel="$1"
+    local workspace_rel="$2"
+    local repo_pack="$WORKSPACE/$workspace_rel"
+    local host_pack="$HOME/$home_rel"
 
     mkdir -p "$repo_pack" "$host_pack"
 
@@ -119,7 +121,8 @@ sync_swipl_packs() {
         ln -s "$repo_pack/$name" "$host_pack/$name"
     done
     shopt -u dotglob nullglob
-    log "→ Synced SWI-Prolog packs with $repo_pack"
+    log "→ Synced SWI-Prolog packs for $home_rel"
 }
 
-sync_swipl_packs
+sync_swipl_packs ".config/swi-prolog/pack" ".config/swi-prolog/pack"
+sync_swipl_packs ".local/share/swi-prolog/pack" ".local/share/swi-prolog/pack"

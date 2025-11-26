@@ -36,7 +36,7 @@ Create the host/container symlinks for the Rust toolchain caches and SWI-Prolog 
 ./scripts/link_toolchains.sh
 ```
 
-This script links `~/vscode_petta_mork/.cargo` → `~/.cargo`, `~/vscode_petta_mork/.rustup` → `~/.rustup`, and `~/.config/swi-prolog/pack` → `~/vscode_petta_mork/.config/swi-prolog/pack`.
+This script links `~/vscode_petta_mork/.cargo` → `~/.cargo`, `~/vscode_petta_mork/.rustup` → `~/.rustup`, and keeps both `~/.config/swi-prolog/pack` and `~/.local/share/swi-prolog/pack` mirrored into the repo so SWI pack installs show up under version control.
 
 ## 5. Create Python venv
 
