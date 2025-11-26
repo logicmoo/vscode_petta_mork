@@ -1,6 +1,6 @@
 # upstreams/
 
-This directory is populated automatically by `make bootstrap` using the definitions in `config/upstreams.list`. Each subdirectory is a full clone of an upstream project (PeTTa, MORK, PathMap, etc.).
+This directory is populated automatically by `make bootstrap` using the definitions in [`config/upstreams.list`](../config/upstreams.list). Each subdirectory is a full clone of an upstream project (PeTTa, MORK, PathMap, etc.).
 
 Guidelines:
 
