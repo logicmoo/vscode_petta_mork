@@ -37,8 +37,11 @@ tasks:
           {{.DOCKER_COMPOSE_CMD}} build
         else
           echo "Docker/Compose not available on this host."
-          echo "Install Docker + Compose plugin with:"
+          echo "Install Docker + Compose with either:"
           echo "  sudo apt update && sudo apt install -y docker.io docker-compose-plugin"
+          echo "      (may require Docker's apt repo on some distros)"
+          echo "  # OR the legacy CLI"
+          echo "  sudo apt update && sudo apt install -y docker.io docker-compose"
           echo "  sudo systemctl enable --now docker"
           echo "  sudo usermod -aG docker $USER && newgrp docker"
           echo "Then rerun: task build"

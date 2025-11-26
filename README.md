@@ -5,6 +5,8 @@
 ```bash
 sudo apt update
 sudo apt install -y docker.io docker-compose-plugin
+# If docker-compose-plugin isn't in your apt sources, install the legacy CLI:
+# sudo apt install -y docker.io docker-compose
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 newgrp docker
