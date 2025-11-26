@@ -14,19 +14,12 @@ For recent changes and outstanding tasks, see [`CHANGELOG.md`](CHANGELOG.md).
 
 ## VS Code & MeTTa LSP Setup
 1. Install [Visual Studio Code](https://code.visualstudio.com/) (the devcontainer already ships everything else).
-2. Build the `metta-lsp` extension from `upstreams/metta-wam/libraries/lsp_server_metta/vscode`:
-   * `cd upstreams/metta-wam/libraries/lsp_server_metta/vscode`
-   * `npm install`
-   * `npx vsce package` (accept the license prompt if asked) → produces `metta-lsp-*.vsix`.
-3. In VS Code choose “Install from VSIX…” from the Extensions panel menu and load the generated package.
-4. Point the extension at this workspace: open its settings, enable `metta-lsp › Server: Debug Lsp`, and set `Metta-lsp › Server: Mettalog Path` to the repo root (e.g., `~/vscode_petta_mork/upstreams/metta-wam`).
-5. Alternatively, start the server manually and point the extension at the port:
-   ```bash
-   swipl -l libraries/lsp_server_metta/prolog/lsp_server_metta.pl \
-     -g lsp_server_metta:main -t 'halt' -- port 40222
-   ```
-   then disable `Metta-lsp › Server: Spawn Process` and set `Metta-lsp › Server: Port` to the same port.
-6. Because `scripts/link_toolchains.sh` mirrors `.local/share/swi-prolog/pack` into the repo, VS Code and the devcontainer automatically see the installed `lsp_server` pack; repeat the same steps inside the container if you ever rebuild the image.
+2. Run `./scripts/setup_metta_lsp.sh` to package the MeTTa LSP extension. It checks for `node`/`npm`, runs `npm install`, builds `metta-lsp-*.vsix` via `npx vsce package`, and prints the generated filename. Set `INSTALL_VSIX=true` to have it call `code --install-extension` automatically, or run `code --install-extension <path>` yourself if you prefer.
+3. The script can also start the SWI-Prolog server: export `START_SERVER=true` (and optionally `PORT=NNNN`) to spawn it via `swipl`. Point the extension at the running port by disabling `Metta-lsp › Server: Spawn Process` and setting `Metta-lsp › Server: Port` accordingly. Without `START_SERVER`, the extension spawns its own server once configured.
+4. Point the extension at this workspace either through the settings UI or via `settings.json`: enable `metta-lsp › Server: Debug Lsp` and set `Metta-lsp › Server: Mettalog Path` to `~/vscode_petta_mork/upstreams/metta-wam` (or wherever you cloned the repo).
+5. Because `scripts/link_toolchains.sh` mirrors `.local/share/swi-prolog/pack` into the repo, VS Code and the devcontainer automatically see the installed `lsp_server` pack; repeat the same steps inside the container if you ever rebuild the image.
+
+Manual fallback: if you need to run the individual commands yourself, `upstreams/metta-wam/libraries/lsp_server_metta/vscode` contains the package sources—`npm install` followed by `npx vsce package` produces the `.vsix` the script wraps.
 
 ## Repository Layout
 - [`AGENTS.md`](AGENTS.md): Operating guidance for CLI agents working in this repo (structure, style, testing, review expectations).
