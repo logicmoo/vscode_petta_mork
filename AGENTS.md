@@ -42,7 +42,7 @@ Run these commands inside the `petta-dev` container (`make up`) so SWI-Prolog an
 4. **Build PeTTa (wraps SWI-Prolog with the MORK FFI)**
    - `cd upstreams/PeTTa`
    - `./build.sh` compiles `mork_ffi` (`cargo build -p mork_ffi --release`) and links `mork.c` against SWI-Prolog via `pkg-config`.
-   - `./run.sh examples/minnars.metta` runs PeTTa with `LD_PRELOAD=./mork_ffi/target/release/libmork_ffi.so` so the compiled kernel is available.
+  - `./run.sh examples/tests.metta` runs PeTTa with `LD_PRELOAD=./mork_ffi/target/release/libmork_ffi.so` so the compiled kernel is available.
 - `./test.sh` exercises the shipped `.metta` examples in parallel; `python -m pytest python/tests` checks the thin Python wrapper.
 
 ## Shared Tooling & Config Mirrors
