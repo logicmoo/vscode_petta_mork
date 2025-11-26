@@ -12,8 +12,3 @@ All notable changes to this workspace will be documented here.
 ### Changed
 - README/AGENTS instructions now emphasize that `make lock` is for release maintainers; contributors should skip it.
 - Setup guide no longer references the initial unzip of the template archive; it assumes the repo is already cloned.
-
-### TODO / Next Steps
-- Migrate `upstreams/PeTTa/mork_ffi` to the current MORK `DefaultSpace` API so `./build.sh` completes.
-- Add smoke tests once local code exists (`docker compose run --rm petta-dev pytest local/tests`).
-- Clean up the obsolete `version` key warning in `docker-compose.yml`.

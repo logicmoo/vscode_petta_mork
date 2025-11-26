@@ -12,6 +12,13 @@ For recent changes and outstanding tasks, see [`CHANGELOG.md`](CHANGELOG.md).
 - [upstreams/metta-wam/libraries/lsp_server_metta/README.md](https://github.com/trueagi-io/metta-wam/blob/vnamed/libraries/lsp_server_metta/README.md) – the MeTTa-specific LSP glue that wires the SWI-Prolog pack into the workspace.
 - [.local/share/swi-prolog/pack/lsp_server/README.md](https://github.com/jamesnvc/lsp_server#readme) – James Cash’s general-purpose SWI-Prolog LSP server used for PeTTa source editing.
 
+## TODO
+We'll track future TODO items for this workspace here (and out of `CHANGELOG.md`). Add entries as they are defined.
+
+- Support running VS Code inside the `petta-dev` container with host X11 forwarding (e.g., exporting `DISPLAY`/`WAYLAND_DISPLAY` and sharing the socket or using VS Code Server) so GUI launches from inside Docker render on the host—this likely means bundling the VS Code binaries in the image.
+- Stand up a SWISH service inside the container and expose it to the host (via forwarded ports or an nginx proxy) so users can hit the Prolog playground without leaving Docker.
+- Provide a first-class way to launch the MeTTaWamJam server (host or Docker) so contributors can demo the web UI without manual scripts.
+
 ## VS Code & MeTTa LSP Setup
 1. Install [Visual Studio Code](https://code.visualstudio.com/) (the devcontainer already ships everything else).
 2. Run `./scripts/install_prolog_lsp_pack.sh` to mirror the vendored `jamesnvc/lsp_server` clone into `.config/swi-prolog/pack` and `.local/share/swi-prolog/pack`, then rebuild the pack via `swipl -g pack_rebuild/1`. The script expects you have already run `./scripts/bootstrap_repos.sh` so `upstreams/lsp_server` exists, and it reuses the same pack tree inside the repo that `scripts/link_toolchains.sh` syncs to your home directory.
@@ -25,7 +32,7 @@ Manual fallback: if you need to run the individual commands yourself, `upstreams
 ## Repository Layout
 - [`AGENTS.md`](AGENTS.md): Operating guidance for CLI agents working in this repo (structure, style, testing, review expectations).
 - [`README.md`](README.md): You are here; overall onboarding instructions for developers.
-- [`CHANGELOG.md`](CHANGELOG.md): Human-readable history plus TODO items.
+- [`CHANGELOG.md`](CHANGELOG.md): Human-readable history of released changes.
 - [`Makefile`](Makefile) / [`Taskfile.yml`](Taskfile.yml): Automation entry points for building the dev container, syncing upstreams, etc.
 - [`config/`](config): Contains `upstreams.list`, the source of truth for external repositories pulled into `upstreams/`.
 - [`docker/`](docker): Dockerfile and scripts used to build the `petta-dev` container image.
