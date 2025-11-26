@@ -75,4 +75,51 @@ ensure_rustup
 link_repo_view ".cargo"
 link_repo_view ".rustup"
 
-link_home_to_workspace ".config/swi-prolog/pack" ".config/swi-prolog/pack"
+sync_swipl_packs() {
+    local repo_pack="$WORKSPACE/.config/swi-prolog/pack"
+    local host_pack="$HOME/.config/swi-prolog/pack"
+
+    mkdir -p "$repo_pack" "$host_pack"
+
+    shopt -s dotglob nullglob
+    for entry in "$host_pack"/*; do
+        [[ -e "$entry" ]] || continue
+        local name
+        name="$(basename "$entry")"
+        if [[ -L "$entry" ]]; then
+            local target
+            target="$(readlink -f "$entry" || true)"
+            if [[ "$target" == "$repo_pack/$name" ]]; then
+                continue
+            fi
+            rm -f "$entry"
+            continue
+        fi
+        if [[ -e "$repo_pack/$name" ]]; then
+            rm -rf "$repo_pack/$name"
+        fi
+        mv "$entry" "$repo_pack/$name"
+        ln -s "$repo_pack/$name" "$host_pack/$name"
+    done
+
+    for entry in "$repo_pack"/*; do
+        [[ -e "$entry" ]] || continue
+        local name
+        name="$(basename "$entry")"
+        if [[ -L "$host_pack/$name" ]]; then
+            local target
+            target="$(readlink -f "$host_pack/$name" || true)"
+            if [[ "$target" == "$repo_pack/$name" ]]; then
+                continue
+            fi
+            rm -f "$host_pack/$name"
+        elif [[ -e "$host_pack/$name" ]]; then
+            rm -rf "$host_pack/$name"
+        fi
+        ln -s "$repo_pack/$name" "$host_pack/$name"
+    done
+    shopt -u dotglob nullglob
+    log "→ Synced SWI-Prolog packs with $repo_pack"
+}
+
+sync_swipl_packs
