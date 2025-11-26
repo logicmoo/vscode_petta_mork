@@ -21,7 +21,7 @@ This repo is the “one folder to open in VS Code.” It keeps the PeTTa runtim
 - [upstreams/MORK/README.md](https://github.com/trueagi-io/MORK#readme) – details on the MORK kernel layout, CLI usage, and PathMap integration.
 - [upstreams/PathMap/README.md](https://github.com/Adam-Vandervorst/PathMap#readme) – background on the PathMap crate, feature flags, and build requirements.
 - [upstreams/metta-wam/README.md](https://github.com/trueagi-io/metta-wam#readme) – documentation for the MeTTa WAM tooling plus the bundled `lsp_server_metta` pack.
-- [.local/share/swi-prolog/pack/prolog_lsp/README.md](https://github.com/jamesrcash/prolog_lsp#readme) – James Cash’s general-purpose SWI-Prolog LSP server used for PeTTa source editing.
+- [.local/share/swi-prolog/pack/prolog_lsp/README.md](https://github.com/jamesnvc/lsp_server#readme) – James Cash’s general-purpose SWI-Prolog LSP server used for PeTTa source editing.
 
 ## 1. Install Docker
 
