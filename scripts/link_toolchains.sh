@@ -53,12 +53,21 @@ link_home_to_workspace() {
     log "→ Linked $home_link -> $workspace_target"
 }
 
+ensure_rustup() {
+    local needs=0
+    [[ ! -d "$HOME/.cargo" ]] && needs=1
+    [[ ! -f "$HOME/.cargo/env" ]] && needs=1
+    [[ -L "$HOME/.cargo/env" ]] && needs=1
+    [[ ! -d "$HOME/.rustup" ]] && needs=1
+    if [[ $needs -eq 1 ]]; then
+        log "Repairing rustup toolchain in $HOME (this may take a moment)..."
+        curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null
+    fi
+}
+
+ensure_rustup
+
 link_repo_view ".cargo"
 link_repo_view ".rustup"
-
-if [[ ! -f "$HOME/.cargo/env" ]] || [[ -L "$HOME/.cargo/env" ]]; then
-    log "Repairing ~/.cargo/env via rustup installer..."
-    curl https://sh.rustup.rs -sSf | sh -s -- -y >/dev/null
-fi
 
 link_home_to_workspace ".config/swi-prolog/pack" ".config/swi-prolog/pack"
