@@ -18,3 +18,32 @@ Write tests next to the code they validate (e.g., `local/tests/test_scheduler.py
 
 ## Commit & Pull Request Guidelines
 Adopt short, imperative commit titles similar to the current history (`Initial`). Group unrelated refactors into separate commits so bisects stay easy when upstream SHAs shift. Every pull request should include a summary of user-facing changes, which commands were run (`make bootstrap`, `pytest`, etc.), any required screenshots/logs, and references to linked issues or upstream repos. Mention whether `config/upstreams.list` was modified manually or via `make lock`, since reviewers need that detail for reproducibility.
+
+## PeTTa & MORK Build Playbook
+Run these commands inside the `petta-dev` container (`make up`) so SWI-Prolog and build-essential packages are present. Install the Rust toolchain via `rustup` (Rust 1.88+ per `upstreams/PathMap/Cargo.toml`) before attempting any of the builds.
+
+1. **Bootstrap upstreams**
+   - `make bootstrap` to populate `upstreams/PeTTa`, `upstreams/MORK`, and `upstreams/PathMap`.
+
+2. **Build PathMap first (MORK depends on it)**
+   - `cd upstreams/PathMap`
+   - `rustup default stable && rustup component add clippy rustfmt` (keeps local tooling consistent with the repos’ `rust-version`)
+   - `cargo build --release -p pathmap --features "jemalloc zipper_tracking arena_compact"` to produce `target/release/libpathmap.rlib`.
+   - Optional sanity check: `cargo test --release pathmap`.
+   - When iterating locally, point MORK at the clone by editing `[workspace.dependencies.pathmap]` in `upstreams/MORK/Cargo.toml` to uncomment `path = "../PathMap"` and comment out the `git` fields.
+
+3. **Build the MORK server**
+   - `cd upstreams/MORK`
+   - `cargo build --release --bin mork-server` (pulls `pathmap` with the features above).
+   - Start the daemon with `./target/release/mork-server` and smoke-test via `python python/client.py` from another shell as documented in `upstreams/MORK/README.md`.
+
+4. **Build PeTTa (wraps SWI-Prolog with the MORK FFI)**
+   - `cd upstreams/PeTTa`
+   - `./build.sh` compiles `mork_ffi` (`cargo build -p mork_ffi --release`) and links `mork.c` against SWI-Prolog via `pkg-config`.
+   - `./run.sh examples/minnars.metta` runs PeTTa with `LD_PRELOAD=./mork_ffi/target/release/libmork_ffi.so` so the compiled kernel is available.
+- `./test.sh` exercises the shipped `.metta` examples in parallel; `python -m pytest python/tests` checks the thin Python wrapper.
+
+## Shared Tooling & Config Mirrors
+- Keep the heavyweight Rust toolchain in your actual home (`~/.cargo`, `~/.rustup`) so rustup/cargo stay standard. If you still need workspace visibility, symlink specific files back into the repo (e.g., `ln -s ~/.cargo/config.toml ~/vscode_petta_mork/.cargo/config.toml`) and add extra ignores as needed.
+- House VS Code settings and other workspace configs directly under `~/vscode_petta_mork/.vscode/` so the editor can edit them and so they can be tracked in git.
+- SWI-Prolog packs can live in-repo for easier editing: put them under `~/vscode_petta_mork/.config/swi-prolog/pack`, then symlink the real pack directory on both host and container (`ln -s ~/vscode_petta_mork/.config/swi-prolog/pack ~/.config/swi-prolog/pack`). Because the repo is bind-mounted at `/home/${USER}/vscode_petta_mork` inside `petta-dev`, the same symlink path works in both environments.
