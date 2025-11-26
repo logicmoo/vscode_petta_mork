@@ -13,6 +13,9 @@ For recent changes and outstanding tasks, see [`CHANGELOG.md`](CHANGELOG.md).
 - [`scripts/`](scripts): Helper scripts (`bootstrap_repos.sh`, `lock_repos.sh`, `link_toolchains.sh`, `unlock_repos.sh`, etc.) that automate workspace tasks.
 - [`upstreams/`](upstreams): Auto-populated clones of external repositories (PeTTa, MORK, PathMap, etc.) managed via `make bootstrap`. Each upstream maintains its own README; edit code there only when vendoring fixes.
 
+## Why This Workspace Exists
+This repo is the “one folder to open in VS Code.” It keeps the PeTTa runtime, the MORK kernel, PathMap, and the MeTTa/MM2 tooling side-by-side so the editor (and its Language Server Protocol clients) can see every dependency without juggling multiple clones. The SWI-Prolog LSP server that powers MeTTa/MM2 authoring lives under `upstreams/metta-wam/libraries/lsp_server_metta`, and VS Code picks it up through the shared `.config/swi-prolog/pack` tree created by `scripts/link_toolchains.sh`. With everything wired through a single devcontainer, you can hack on PeTTa Tacode files, run the LSP-backed IDE features, and jump into upstream sources to expand or debug the stack—all without leaving this workspace.
+
 ## 1. Install Docker
 
 ```bash
