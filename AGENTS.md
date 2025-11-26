@@ -44,6 +44,6 @@ Run these commands inside the `petta-dev` container (`make up`) so SWI-Prolog an
 - `./test.sh` exercises the shipped `.metta` examples in parallel; `python -m pytest python/tests` checks the thin Python wrapper.
 
 ## Shared Tooling & Config Mirrors
-- Keep the heavyweight Rust toolchain in your actual home (`~/.cargo`, `~/.rustup`) so rustup/cargo stay standard. If you still need workspace visibility, symlink specific files back into the repo (e.g., `ln -s ~/.cargo/config.toml ~/vscode_petta_mork/.cargo/config.toml`) and add extra ignores as needed.
+- Keep the heavyweight Rust toolchain in your actual home (`~/.cargo`, `~/.rustup`) so rustup/cargo stay standard. Run `./scripts/link_toolchains.sh` to drop symlinks from the workspace back to those directories and to create the inverse link for SWI-Prolog packs.
 - House VS Code settings and other workspace configs directly under `~/vscode_petta_mork/.vscode/` so the editor can edit them and so they can be tracked in git.
-- SWI-Prolog packs can live in-repo for easier editing: put them under `~/vscode_petta_mork/.config/swi-prolog/pack`, then symlink the real pack directory on both host and container (`ln -s ~/vscode_petta_mork/.config/swi-prolog/pack ~/.config/swi-prolog/pack`). Because the repo is bind-mounted at `/home/${USER}/vscode_petta_mork` inside `petta-dev`, the same symlink path works in both environments.
+- SWI-Prolog packs can live in-repo for easier editing: the script above guarantees `~/.config/swi-prolog/pack` points at `~/vscode_petta_mork/.config/swi-prolog/pack`, which works for both the host and the `petta-dev` container thanks to the bind mount.

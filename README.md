@@ -34,29 +34,39 @@ make build
 make bootstrap
 ```
 
-## 5. Create Python venv
+## 5. Link Shared Toolchains & Config
+
+Create the host/container symlinks for the Rust toolchain caches and SWI-Prolog packs so editors and the devcontainer see the same paths:
+
+```bash
+./scripts/link_toolchains.sh
+```
+
+This script links `~/vscode_petta_mork/.cargo` → `~/.cargo`, `~/vscode_petta_mork/.rustup` → `~/.rustup`, and `~/.config/swi-prolog/pack` → `~/vscode_petta_mork/.config/swi-prolog/pack`.
+
+## 6. Create Python venv
 
 ```bash
 docker compose run --rm petta-dev bash -lc 'cd ~/vscode_petta_mork && python3 -m venv .venv'
 ```
 
-## 6. Enter Dev Shell
+## 7. Enter Dev Shell
 
 ```bash
 make up
 ```
 
-## 7. VS Code
+## 8. VS Code
 
 Open folder: `~/vscode_petta_mork`, then **Reopen in Container**.
 
-## 8. Lock repo versions
+## 9. Lock repo versions
 
 ```bash
 make lock
 ```
 
-## 9. Local-only workflow (no Docker)
+## 10. Local-only workflow (no Docker)
 
 If Docker isn't available or you prefer to run tooling directly on the host:
 
