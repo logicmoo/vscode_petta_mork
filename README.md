@@ -12,6 +12,22 @@ For recent changes and outstanding tasks, see [`CHANGELOG.md`](CHANGELOG.md).
 - [upstreams/metta-wam/libraries/lsp_server_metta/README.md](https://github.com/trueagi-io/metta-wam/blob/vnamed/libraries/lsp_server_metta/README.md) – the MeTTa-specific LSP glue that wires the SWI-Prolog pack into the workspace.
 - [.local/share/swi-prolog/pack/lsp_server/README.md](https://github.com/jamesnvc/lsp_server#readme) – James Cash’s general-purpose SWI-Prolog LSP server used for PeTTa source editing.
 
+## VS Code & MeTTa LSP Setup
+1. Install [Visual Studio Code](https://code.visualstudio.com/) (the devcontainer already ships everything else).
+2. Build the `metta-lsp` extension from `upstreams/metta-wam/libraries/lsp_server_metta/vscode`:
+   * `cd upstreams/metta-wam/libraries/lsp_server_metta/vscode`
+   * `npm install`
+   * `npx vsce package` (accept the license prompt if asked) → produces `metta-lsp-*.vsix`.
+3. In VS Code choose “Install from VSIX…” from the Extensions panel menu and load the generated package.
+4. Point the extension at this workspace: open its settings, enable `metta-lsp › Server: Debug Lsp`, and set `Metta-lsp › Server: Mettalog Path` to the repo root (e.g., `~/vscode_petta_mork/upstreams/metta-wam`).
+5. Alternatively, start the server manually and point the extension at the port:
+   ```bash
+   swipl -l libraries/lsp_server_metta/prolog/lsp_server_metta.pl \
+     -g lsp_server_metta:main -t 'halt' -- port 40222
+   ```
+   then disable `Metta-lsp › Server: Spawn Process` and set `Metta-lsp › Server: Port` to the same port.
+6. Because `scripts/link_toolchains.sh` mirrors `.local/share/swi-prolog/pack` into the repo, VS Code and the devcontainer automatically see the installed `lsp_server` pack; repeat the same steps inside the container if you ever rebuild the image.
+
 ## Repository Layout
 - [`AGENTS.md`](AGENTS.md): Operating guidance for CLI agents working in this repo (structure, style, testing, review expectations).
 - [`README.md`](README.md): You are here; overall onboarding instructions for developers.
